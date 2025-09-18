@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get "pins/update"
   get "pins/destroy"
   resource :session
+  resource :registration, only: %i[new create]
+  resource :dashboard, only: :show
   resources :passwords, param: :token
   resources :pins
   resources :groups do
