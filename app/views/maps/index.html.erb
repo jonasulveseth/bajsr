@@ -1,0 +1,50 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-green-900 to-emerald-900">
+  <div class="flex flex-col h-screen">
+    <!-- Header -->
+    <div class="bg-white/10 backdrop-blur-sm border-b border-white/20 p-4">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div>
+          <h1 class="text-2xl font-bold text-white">Map View</h1>
+          <p class="text-white/70 text-sm"><%= @pins.count %> pins on the map</p>
+        </div>
+        <div class="flex space-x-4">
+          <%= link_to pins_path, class: "bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-colors" do %>
+            <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+            </svg>
+            List View
+          <% end %>
+          <%= link_to new_pin_path, class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors" do %>
+            <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+            Add Pin
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Container -->
+    <div class="flex-1 relative">
+      <div 
+        data-controller="map"
+        data-map-center-value="<%= { lat: 59.3293, lng: 18.0686 }.to_json %>"
+        data-map-zoom-value="8"
+        data-pins-value="<%= @pins.map { |pin| { 
+          id: pin.id,
+          lat: pin.latitude, 
+          lng: pin.longitude, 
+          rating: pin.rating,
+          comment: pin.comment,
+          user: pin.user.email_address,
+          created_at: pin.created_at.strftime("%B %d, %Y"),
+          image_url: pin.image.attached? ? rails_blob_url(pin.image) : nil,
+          show_url: pin_path(pin)
+        } }.to_json %>"
+        class="w-full h-full"
+      >
+        <div data-map-target="map" class="w-full h-full"></div>
+      </div>
+    </div>
+  </div>
+</div>

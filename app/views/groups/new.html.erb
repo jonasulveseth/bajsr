@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-green-900 to-emerald-900">
+  <div class="max-w-2xl mx-auto px-4 py-8">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-white mb-2">Create New Group</h1>
+      <p class="text-white/70">Create a group to share pins with friends and family.</p>
+    </div>
+
+    <%= form_with model: @group, local: true, class: "space-y-6" do |form| %>
+      <% if @group.errors.any? %>
+        <div class="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+          <h2 class="text-red-400 font-semibold mb-2">
+            <%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:
+          </h2>
+          <ul class="text-red-300 text-sm space-y-1">
+            <% @group.errors.full_messages.each do |message| %>
+              <li>• <%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+        <div class="space-y-4">
+          <div>
+            <%= form.label :name, class: "block text-white font-medium mb-2" %>
+            <%= form.text_field :name, 
+                placeholder: "Enter group name...",
+                class: "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-green-400 focus:outline-none transition-colors" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex space-x-4">
+        <%= form.submit "Create Group", class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors" %>
+        <%= link_to "Cancel", groups_path, class: "bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3 rounded-lg transition-colors" %>
+      </div>
+    <% end %>
+  </div>
+</div>

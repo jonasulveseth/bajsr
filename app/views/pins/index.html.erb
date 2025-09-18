@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-green-900 to-emerald-900">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-4xl font-bold text-white">All Pins</h1>
+      <%= link_to new_pin_path, class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors" do %>
+        <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+        </svg>
+        Add New Pin
+      <% end %>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <% @pins.each do |pin| %>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6 hover:border-green-400/30 transition-all duration-300">
+          <% if pin.image.attached? %>
+            <div class="mb-4">
+              <%= image_tag pin.image, class: "w-full h-48 object-cover rounded-lg" %>
+            </div>
+          <% end %>
+          
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center space-x-2">
+              <div class="flex">
+                <% 5.times do |i| %>
+                  <svg class="w-5 h-5 <%= i < pin.rating ? 'text-yellow-400' : 'text-gray-400' %>" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                <% end %>
+              </div>
+              <span class="text-white/70 text-sm"><%= pin.rating %>/5</span>
+            </div>
+            <span class="text-white/50 text-sm"><%= time_ago_in_words(pin.created_at) %> ago</span>
+          </div>
+          
+          <p class="text-white mb-4 line-clamp-3"><%= pin.comment %></p>
+          
+          <div class="flex items-center justify-between text-sm text-white/60 mb-4">
+            <span>📍 <%= number_with_precision(pin.latitude, precision: 6) %>, <%= number_with_precision(pin.longitude, precision: 6) %></span>
+            <span>by <%= pin.user.email_address %></span>
+          </div>
+          
+          <div class="flex space-x-2">
+            <%= link_to "View", pin_path(pin), class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm transition-colors" %>
+            <% if pin.user == current_user %>
+              <%= link_to "Edit", edit_pin_path(pin), class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition-colors" %>
+              <%= link_to "Delete", pin_path(pin), method: :delete, data: { confirm: "Are you sure?" }, class: "bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm transition-colors" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @pins.empty? %>
+      <div class="text-center py-12">
+        <div class="text-white/50 text-lg mb-4">No pins found</div>
+        <%= link_to "Create your first pin", new_pin_path, class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors" %>
+      </div>
+    <% end %>
+  </div>
+</div>

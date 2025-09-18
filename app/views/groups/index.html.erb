@@ -1,0 +1,56 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-green-900 to-emerald-900">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-4xl font-bold text-white">My Groups</h1>
+      <%= link_to new_group_path, class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors" do %>
+        <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+        </svg>
+        Create Group
+      <% end %>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <% @groups.each do |group| %>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6 hover:border-green-400/30 transition-all duration-300">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-white"><%= group.name %></h3>
+            <div class="flex space-x-2">
+              <%= link_to group_path(group), class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm transition-colors" do %>
+                View
+              <% end %>
+              <%= link_to edit_group_path(group), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors" do %>
+                Edit
+              <% end %>
+            </div>
+          </div>
+          
+          <div class="text-white/70 text-sm mb-4">
+            <p><%= group.users.count %> members</p>
+            <p><%= group.users.joins(:pins).count %> total pins</p>
+          </div>
+          
+          <div class="flex flex-wrap gap-2">
+            <% group.users.limit(5).each do |user| %>
+              <span class="bg-white/10 text-white/80 px-2 py-1 rounded text-xs">
+                <%= user.email_address.split('@').first %>
+              </span>
+            <% end %>
+            <% if group.users.count > 5 %>
+              <span class="bg-white/10 text-white/80 px-2 py-1 rounded text-xs">
+                +<%= group.users.count - 5 %> more
+              </span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @groups.empty? %>
+      <div class="text-center py-12">
+        <div class="text-white/50 text-lg mb-4">You haven't joined any groups yet</div>
+        <%= link_to "Create your first group", new_group_path, class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors" %>
+      </div>
+    <% end %>
+  </div>
+</div>

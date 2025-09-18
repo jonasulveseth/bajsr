@@ -1,0 +1,196 @@
+<% content_for :head do %>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    
+    @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .animate-fade-in { animation: fade-in 0.6s ease-out; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-float-delay { animation: float 6s ease-in-out infinite 2s; }
+  </style>
+<% end %>
+
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-green-900 to-emerald-900">
+  <!-- Hero Section -->
+  <div class="relative min-h-screen flex items-center justify-center overflow-hidden" 
+       style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop'); background-size: cover; background-position: center;">
+      
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
+      
+      <!-- Navigation -->
+      <nav class="absolute top-0 left-0 right-0 z-50 p-6">
+          <div class="max-w-7xl mx-auto flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                  <svg class="h-8 w-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                  </svg>
+                  <span class="text-2xl font-bold text-white">Bajsr</span>
+              </div>
+              <div class="hidden md:flex items-center space-x-8">
+                  <a href="#features" class="text-white/80 hover:text-white transition-colors">Features</a>
+                  <a href="#about" class="text-white/80 hover:text-white transition-colors">About</a>
+                  <button class="border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm px-4 py-2 rounded-md transition-colors">
+                      Sign In
+                  </button>
+              </div>
+          </div>
+      </nav>
+
+      <!-- Hero Content -->
+      <div class="relative z-10 text-center px-4 animate-fade-in">
+          <div class="max-w-4xl mx-auto">
+              <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                  Track Nature's
+                  <span class="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent block">
+                      Call of Duty
+                  </span>
+              </h1>
+              
+              <p class="text-xl md:text-2xl text-white/90 mb-4 font-light">
+                  Shit happens, now you know where
+              </p>
+              
+              <p class="text-lg text-white/70 mb-12 max-w-2xl mx-auto leading-relaxed">
+                  Help keep our wilderness pristine by tracking outdoor waste locations. 
+                  A community-driven solution for responsible outdoor recreation.
+              </p>
+
+              <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <%= link_to new_pin_path, class: "bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-semibold px-8 py-4 text-lg rounded-md shadow-2xl hover:scale-105 transition-all duration-300 flex items-center" do %>
+                      Start Tracking
+                      <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      </svg>
+                  <% end %>
+                  
+                  <%= link_to maps_path, class: "border border-white/30 text-white hover:bg-white/10 backdrop-blur-sm px-8 py-4 text-lg rounded-md transition-colors" do %>
+                      View Map
+                  <% end %>
+              </div>
+          </div>
+      </div>
+
+      <!-- Floating Elements -->
+      <div class="absolute bottom-20 left-10 animate-float">
+          <div class="backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl p-4">
+              <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+          </div>
+      </div>
+      
+      <div class="absolute top-1/3 right-10 animate-float-delay">
+          <div class="backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl p-4">
+              <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+              </svg>
+          </div>
+      </div>
+  </div>
+
+  <!-- Features Section -->
+  <section id="features" class="py-24 px-4 bg-gradient-to-b from-transparent to-slate-900/50">
+      <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-16">
+              <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                  Keep Nature Clean
+              </h2>
+              <p class="text-xl text-white/70 max-w-3xl mx-auto">
+                  Our platform helps outdoor enthusiasts maintain the beauty of our natural spaces 
+                  through community awareness and responsible practices.
+              </p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-8">
+              <div class="backdrop-blur-sm bg-white/10 border border-white/10 hover:border-green-400/30 transition-all duration-300 group rounded-lg p-8 text-center">
+                  <div class="w-16 h-16 bg-gradient-to-r from-green-600 to-green-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      </svg>
+                  </div>
+                  <h3 class="text-2xl font-semibold text-white mb-4">Location Tracking</h3>
+                  <p class="text-white/70 leading-relaxed">
+                      Precisely mark locations to help others navigate safely around outdoor waste areas.
+                  </p>
+              </div>
+
+              <div class="backdrop-blur-sm bg-white/10 border border-white/10 hover:border-green-400/30 transition-all duration-300 group rounded-lg p-8 text-center">
+                  <div class="w-16 h-16 bg-gradient-to-r from-green-600 to-green-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                      </svg>
+                  </div>
+                  <h3 class="text-2xl font-semibold text-white mb-4">Community Driven</h3>
+                  <p class="text-white/70 leading-relaxed">
+                      Join a community of responsible outdoor enthusiasts working together for cleaner trails.
+                  </p>
+              </div>
+
+              <div class="backdrop-blur-sm bg-white/10 border border-white/10 hover:border-green-400/30 transition-all duration-300 group rounded-lg p-8 text-center">
+                  <div class="w-16 h-16 bg-gradient-to-r from-green-600 to-green-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                      </svg>
+                  </div>
+                  <h3 class="text-2xl font-semibold text-white mb-4">Anonymous & Safe</h3>
+                  <p class="text-white/70 leading-relaxed">
+                      Report locations anonymously while maintaining privacy and promoting responsible use.
+                  </p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+          <div class="backdrop-blur-sm bg-white/10 border border-white/10 rounded-3xl p-12">
+              <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                  Ready to Make a Difference?
+              </h2>
+              <p class="text-xl text-white/80 mb-10 leading-relaxed">
+                  Join thousands of outdoor enthusiasts who are helping preserve our natural spaces 
+                  for future generations.
+              </p>
+                                  <%= link_to new_pin_path, class: "bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-semibold px-12 py-6 text-xl rounded-md shadow-2xl hover:scale-105 transition-all duration-300" do %>
+                        Get Started Today
+                    <% end %>
+          </div>
+      </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 py-12 px-4">
+      <div class="max-w-6xl mx-auto">
+          <div class="flex flex-col md:flex-row items-center justify-between">
+              <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                  <svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                  </svg>
+                  <span class="text-xl font-bold text-white">Bajsr</span>
+              </div>
+              <div class="flex items-center space-x-8">
+                  <a href="#" class="text-white/60 hover:text-white transition-colors">Privacy</a>
+                  <a href="#" class="text-white/60 hover:text-white transition-colors">Terms</a>
+                  <a href="#" class="text-white/60 hover:text-white transition-colors">Contact</a>
+              </div>
+          </div>
+          <div class="mt-8 pt-8 border-t border-white/10 text-center">
+              <p class="text-white/50">© 2024 Bajsr. Helping keep nature pristine, one location at a time.</p>
+          </div>
+      </div>
+  </footer>
+</div>

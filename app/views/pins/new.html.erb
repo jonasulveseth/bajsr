@@ -1,0 +1,140 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-green-900 to-emerald-900">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-white mb-2">Add New Pin</h1>
+      <p class="text-white/70">Click on the map to select a location, then fill in the details below.</p>
+    </div>
+
+    <%= form_with model: @pin, local: true, class: "space-y-6" do |form| %>
+      <% if @pin.errors.any? %>
+        <div class="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
+          <h2 class="text-red-400 font-semibold mb-2">
+            <%= pluralize(@pin.errors.count, "error") %> prohibited this pin from being saved:
+          </h2>
+          <ul class="text-red-300 text-sm space-y-1">
+            <% @pin.errors.full_messages.each do |message| %>
+              <li>• <%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- Map Section -->
+      <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-white mb-4">Select Location</h3>
+        <div 
+          data-controller="map"
+          data-map-center-value="<%= { lat: 59.3293, lng: 18.0686 }.to_json %>"
+          data-map-zoom-value="10"
+          class="w-full h-96 rounded-lg overflow-hidden"
+        >
+          <div data-map-target="map" class="w-full h-full"></div>
+        </div>
+      </div>
+
+      <!-- Form Fields -->
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div>
+            <%= form.label :latitude, class: "block text-white font-medium mb-2" %>
+            <%= form.number_field :latitude, 
+                step: :any, 
+                data: { map_target: "latitude" },
+                class: "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-green-400 focus:outline-none transition-colors" %>
+          </div>
+
+          <div>
+            <%= form.label :longitude, class: "block text-white font-medium mb-2" %>
+            <%= form.number_field :longitude, 
+                step: :any, 
+                data: { map_target: "longitude" },
+                class: "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-green-400 focus:outline-none transition-colors" %>
+          </div>
+
+          <div>
+            <%= form.label :rating, class: "block text-white font-medium mb-2" %>
+            <div class="flex space-x-2">
+              <% 5.times do |i| %>
+                <button type="button" 
+                        data-rating="<%= i + 1 %>"
+                        class="rating-star w-10 h-10 rounded-lg border border-white/20 bg-white/10 text-white hover:bg-yellow-400 hover:text-yellow-900 transition-colors"
+                        onclick="setRating(<%= i + 1 %>)">
+                  <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                </button>
+              <% end %>
+            </div>
+            <%= form.hidden_field :rating, id: "pin_rating" %>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <%= form.label :comment, class: "block text-white font-medium mb-2" %>
+            <%= form.text_area :comment, 
+                rows: 4,
+                placeholder: "Describe the location and any relevant details...",
+                class: "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-green-400 focus:outline-none transition-colors resize-none" %>
+          </div>
+
+          <div>
+            <%= form.label :image, class: "block text-white font-medium mb-2" %>
+            <div class="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-green-400/50 transition-colors">
+              <%= form.file_field :image, 
+                  accept: "image/*",
+                  class: "hidden",
+                  id: "pin_image_input" %>
+              <label for="pin_image_input" class="cursor-pointer">
+                <svg class="w-12 h-12 text-white/50 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <p class="text-white/70">Click to upload an image</p>
+                <p class="text-white/50 text-sm">PNG, JPG up to 5MB</p>
+              </label>
+            </div>
+            <div id="image_preview" class="mt-2 hidden">
+              <img id="preview_img" class="w-full h-32 object-cover rounded-lg" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="flex space-x-4 pt-6">
+        <%= form.submit "Create Pin", class: "bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors" %>
+        <%= link_to "Cancel", pins_path, class: "bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3 rounded-lg transition-colors" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+function setRating(rating) {
+  document.getElementById('pin_rating').value = rating;
+  
+  // Update star display
+  document.querySelectorAll('.rating-star').forEach((star, index) => {
+    if (index < rating) {
+      star.classList.add('bg-yellow-400', 'text-yellow-900');
+      star.classList.remove('bg-white/10', 'text-white');
+    } else {
+      star.classList.remove('bg-yellow-400', 'text-yellow-900');
+      star.classList.add('bg-white/10', 'text-white');
+    }
+  });
+}
+
+// Image preview
+document.getElementById('pin_image_input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('preview_img').src = e.target.result;
+      document.getElementById('image_preview').classList.remove('hidden');
+    }
+    reader.readAsDataURL(file);
+  }
+});
+</script>
