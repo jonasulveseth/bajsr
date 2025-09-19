@@ -6,21 +6,14 @@ class Pin < ApplicationRecord
   validates :longitude, presence: true, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
   validates :rating, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5, only_integer: true }
   validates :comment, presence: true, length: { maximum: 1000 }
-  validate :acceptable_image
+  validate :image_presence
+
+  private
+
+  def image_presence
+    errors.add(:image, "must be attached") unless image.attached?
+  end
 
   scope :recent, -> { order(created_at: :desc) }
   scope :by_rating, ->(rating) { where(rating: rating) }
-
-  private
-    def acceptable_image
-      return unless image.attached?
-
-      unless image.content_type.in?(%w[image/png image/jpeg image/jpg])
-        errors.add(:image, "must be a PNG or JPG")
-      end
-
-      if image.byte_size > 5.megabytes
-        errors.add(:image, "needs to be smaller than 5 MB")
-      end
-    end
 end
