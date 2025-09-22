@@ -1,0 +1,55 @@
+<svg width="1179" height="2556" viewBox="0 0 1179 2556" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1179" height="2556" fill="url(#bgGradient)"/>
+  
+  <!-- App Icon/Logo -->
+  <circle cx="589.5" cy="1000" r="80" fill="#16a34a" opacity="0.2"/>
+  <circle cx="589.5" cy="1000" r="60" fill="#16a34a" opacity="0.4"/>
+  <circle cx="589.5" cy="1000" r="40" fill="#16a34a"/>
+  
+  <!-- Map pin icon -->
+  <g transform="translate(549.5, 960)">
+    <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" 
+          stroke="#ffffff" 
+          stroke-width="2" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+  </g>
+  
+  <!-- App Name -->
+  <text x="589.5" y="1150" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="72" 
+        font-weight="700" 
+        text-anchor="middle" 
+        fill="#ffffff">Bajsr</text>
+  
+  <!-- Subtitle -->
+  <text x="589.5" y="1220" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="24" 
+        font-weight="400" 
+        text-anchor="middle" 
+        fill="#94a3b8">Track Nature's Call</text>
+  
+  <!-- Loading indicator -->
+  <circle cx="589.5" cy="1400" r="4" fill="#16a34a" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="609.5" cy="1400" r="4" fill="#16a34a" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" begin="0.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="629.5" cy="1400" r="4" fill="#16a34a" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" begin="0.4s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
