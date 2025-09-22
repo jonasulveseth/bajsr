@@ -34,5 +34,11 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# Ignore credentials
+/config/credentials.yml.enc
+
+# Ignore start scripts (production server specific)
+start_bajsr.sh
+
 /app/assets/builds/*
 !/app/assets/builds/.keep
