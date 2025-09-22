@@ -1,7 +1,7 @@
 <div id="install-banner"
      data-controller="pwa-install"
-     data-pwa-install-visible-class="opacity-100 translate-y-0"
-     class="fixed inset-x-0 bottom-4 mx-auto w-[92%] max-w-md rounded-xl border bg-white/90 backdrop-blur p-3 shadow-lg opacity-0 translate-y-2 transition z-50">
+     data-pwa-install-visible-class="opacity-100 translate-y-0 pointer-events-auto"
+     class="fixed inset-x-0 bottom-4 mx-auto w-[92%] max-w-md rounded-xl border bg-white/90 backdrop-blur p-3 shadow-lg opacity-0 translate-y-2 transition z-50 pointer-events-none">
   <div class="text-sm">
     <strong>Installera appen</strong>
     <p class="mt-1" data-pwa-install-target="message">
@@ -12,5 +12,4 @@
     <button data-action="click->pwa-install#hide" class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50">Stäng</button>
   </div>
 </div>
-
 

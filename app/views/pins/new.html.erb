@@ -17,9 +17,9 @@
 
     <div 
       data-controller="map"
-      data-map-center-value="<%= { lat: 59.3293, lng: 18.0686 }.to_json %>"
+      data-map-center-value="<%= json_escape({ lat: 59.3293, lng: 18.0686 }.to_json) %>"
       data-map-zoom-value="10"
-      data-map-pins-value="<%= j(@pins_payload.to_json) %>"
+      data-map-pins-value="<%= json_escape(@pins_payload.to_json) %>"
       class="absolute inset-0"
     >
       <div class="pointer-events-none absolute top-6 right-6 z-30 flex flex-col gap-2 text-white">
@@ -35,7 +35,7 @@
       <%= form.hidden_field :longitude, step: :any, data: { map_target: "longitude" }, id: "pin_longitude" %>
       <%= form.hidden_field :group_id, value: @current_group.id %>
 
-      <div data-map-target="panel" class="pointer-events-none hidden absolute inset-x-0 bottom-6 flex justify-center px-4">
+      <div data-map-target="panel" class="hidden absolute inset-x-0 bottom-6 flex justify-center px-4">
         <div class="pointer-events-auto w-full max-w-2xl rounded-3xl border border-white/20 bg-slate-900/95 text-white shadow-2xl backdrop-blur-xl">
           <div class="flex flex-col gap-6 p-6 md:p-8">
             <header class="space-y-2">
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3">
-                  <%= form.submit "Spara pin", class: "inline-flex items-center justify-center rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-500", onclick: "console.log('Button clicked!'); return validateForm()", id: "submit-button" %>
+                  <%= form.submit "Spara pin", class: "inline-flex items-center justify-center rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-500" %>
                   <%= link_to "Avbryt", pins_path, class: "inline-flex items-center justify-center rounded-xl bg-white/10 px-6 py-3 text-sm font-semibold text-white/80 transition-colors hover:bg-white/20" %>
                 </div>
               </div>
@@ -119,34 +119,6 @@ function setRating(rating) {
       star.classList.add('bg-white/10', 'text-white');
     }
   });
-}
-
-function validateForm() {
-  console.log('validateForm called');
-  const latitude = document.getElementById('pin_latitude').value;
-  const longitude = document.getElementById('pin_longitude').value;
-  const rating = document.getElementById('pin_rating').value;
-  const comment = document.querySelector('textarea[name="pin[comment]"]').value;
-  
-  console.log('Form data:', { latitude, longitude, rating, comment });
-  
-  if (!latitude || !longitude) {
-    alert('Klicka på kartan för att placera en markör först.');
-    return false;
-  }
-  
-  if (!rating) {
-    alert('Välj ett betyg genom att klicka på stjärnorna.');
-    return false;
-  }
-  
-  if (!comment.trim()) {
-    alert('Skriv en kommentar om vad du hittade.');
-    return false;
-  }
-  
-  console.log('Form validation passed!');
-  return true;
 }
 
 // Image preview

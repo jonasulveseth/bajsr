@@ -125,8 +125,8 @@ export default class extends Controller {
             <path d="M24 40c3 4 13 4 16 0" stroke="#2f1b0f" stroke-width="3" stroke-linecap="round" fill="none"/>
           </svg>
         `),
-        scaledSize: new google.maps.Size(64, 64),
-        anchor: new google.maps.Point(32, 48)
+        scaledSize: new google.maps.Size(32, 32),
+        anchor: new google.maps.Point(16, 24)
       }
     })
 
@@ -187,8 +187,8 @@ export default class extends Controller {
             <path d="M24 40c3 4 13 4 16 0" stroke="#2f1b0f" stroke-width="3" stroke-linecap="round" fill="none"/>
           </svg>
         `),
-        scaledSize: new google.maps.Size(48, 48),
-        anchor: new google.maps.Point(24, 36)
+        scaledSize: new google.maps.Size(32, 32),
+        anchor: new google.maps.Point(16, 24)
       }
     })
 
@@ -330,10 +330,6 @@ export default class extends Controller {
     if (this.hasPanelTarget) {
       this.panelTarget.classList.remove('hidden')
       this.panelTarget.classList.add('flex')
-      // Ensure the panel is interactive
-      this.panelTarget.classList.remove('pointer-events-none')
-      this.panelTarget.classList.add('pointer-events-auto')
-      console.log('Panel shown and made interactive')
     }
   }
 }

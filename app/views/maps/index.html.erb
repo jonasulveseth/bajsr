@@ -30,9 +30,9 @@
     <div class="flex-1 relative">
       <div 
         data-controller="map"
-        data-map-center-value="<%= { lat: 59.3293, lng: 18.0686 }.to_json %>"
+        data-map-center-value="<%= json_escape({ lat: 59.3293, lng: 18.0686 }.to_json) %>"
         data-map-zoom-value="8"
-        data-pins-value="<%= @pins.map { |pin| { 
+        data-map-pins-value="<%= json_escape(@pins.map { |pin| { 
           id: pin.id,
           lat: pin.latitude, 
           lng: pin.longitude, 
@@ -42,7 +42,7 @@
           created_at: pin.created_at.strftime("%B %d, %Y"),
           image_url: pin.image.attached? ? rails_blob_url(pin.image) : nil,
           show_url: pin_path(pin)
-        } }.to_json %>"
+        } }.to_json) %>"
         class="w-full h-full"
       >
         <div data-map-target="map" class="w-full h-full"></div>
