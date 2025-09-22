@@ -13,11 +13,16 @@
 
     <header class="space-y-2">
       <h1 class="text-3xl sm:text-4xl font-bold text-slate-900">Create your account</h1>
-      <p class="text-sm text-slate-600">Set up your profile to start contributing to the community.</p>
+      <% if @invitation %>
+        <p class="text-sm text-slate-600">You're joining <span class="font-semibold"><%= @invitation.group.name %></span>. We'll add you automatically after signup.</p>
+      <% else %>
+        <p class="text-sm text-slate-600">Set up your profile to start contributing to the community.</p>
+      <% end %>
     </header>
 
     <div class="mt-8">
       <%= form_with model: @user, url: registration_path, class: "space-y-6" do |form| %>
+        <%= hidden_field_tag :invitation_token, @invitation&.token if @invitation %>
         <div>
           <%= form.label :email_address, "Email address", class: "block text-sm font-medium text-slate-700" %>
           <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email", placeholder: "Enter your email address", class: "mt-2 block w-full rounded-xl border border-slate-300 px-3 py-2 text-base shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200" %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_03_145525) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_03_162000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_145525) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "group_invitations", force: :cascade do |t|
+    t.integer "group_id", null: false
+    t.integer "invited_by_id", null: false
+    t.string "email", null: false
+    t.string "token", null: false
+    t.datetime "accepted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_group_invitations_on_email"
+    t.index ["group_id"], name: "index_group_invitations_on_group_id"
+    t.index ["invited_by_id"], name: "index_group_invitations_on_invited_by_id"
+    t.index ["token"], name: "index_group_invitations_on_token", unique: true
+  end
+
   create_table "groups", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -62,6 +76,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_145525) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "group_id"
+    t.index ["group_id", "user_id"], name: "index_pins_on_group_id_and_user_id"
+    t.index ["group_id"], name: "index_pins_on_group_id"
     t.index ["user_id"], name: "index_pins_on_user_id"
   end
 
@@ -84,8 +101,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_145525) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "group_invitations", "groups"
+  add_foreign_key "group_invitations", "users", column: "invited_by_id"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
+  add_foreign_key "pins", "groups"
   add_foreign_key "pins", "users"
   add_foreign_key "sessions", "users"
 end

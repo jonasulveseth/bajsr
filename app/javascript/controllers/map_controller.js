@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["map", "latitude", "longitude"]
+  static targets = ["map", "latitude", "longitude", "panel"]
   static values = { 
     center: { type: Object, default: { lat: 59.3293, lng: 18.0686 } }, // Stockholm default
     zoom: { type: Number, default: 10 },
@@ -9,24 +9,44 @@ export default class extends Controller {
   }
 
   connect() {
-    this.initializeMap()
-  }
-
-  initializeMap() {
-    if (typeof google === 'undefined') {
-      console.warn('Google Maps API not loaded')
+    if (typeof window.google === 'undefined' || typeof window.google.maps === 'undefined') {
+      this.enqueueInitialization()
       return
     }
 
+    this.initializeMap()
+  }
+
+  disconnect() {
+    if (this.pendingInitialization) {
+      window._initGoogleMapsQueue = (window._initGoogleMapsQueue || []).filter(callback => callback !== this.pendingInitialization)
+      this.pendingInitialization = null
+    }
+  }
+
+  enqueueInitialization() {
+    window._initGoogleMapsQueue = window._initGoogleMapsQueue || []
+    this.pendingInitialization = () => {
+      if (typeof window.google !== 'undefined' && typeof window.google.maps !== 'undefined') {
+        this.initializeMap()
+        this.pendingInitialization = null
+      }
+    }
+    window._initGoogleMapsQueue.push(this.pendingInitialization)
+  }
+
+  initializeMap() {
     this.map = new google.maps.Map(this.mapTarget, {
       center: this.centerValue,
       zoom: this.zoomValue,
       styles: this.getMapStyles()
     })
 
+    this.tryGeolocation()
+
     // Add click listener to add pins
     this.map.addListener('click', (event) => {
-      this.addPin(event.latLng)
+      this.handleMapClick(event)
     })
 
     // Load existing pins if any
@@ -38,20 +58,79 @@ export default class extends Controller {
         this.addPinFromData(pinData)
       })
     }
+
+    if (this.hasLatitudeTarget && this.hasLongitudeTarget && this.latitudeTarget.value && this.longitudeTarget.value) {
+      const position = new google.maps.LatLng(parseFloat(this.latitudeTarget.value), parseFloat(this.longitudeTarget.value))
+      this.placeSingleMarker(position)
+      this.map.panTo(position)
+      this.showPanel()
+    }
   }
 
-  addPin(latLng) {
+  tryGeolocation() {
+    if (!navigator.geolocation) {
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+        this.map.setCenter(coords)
+        this.map.setZoom(16)
+
+        if (!(this.hasLatitudeTarget && this.hasLongitudeTarget && (this.latitudeTarget.value || this.longitudeTarget.value))) {
+          this.placeSingleMarker(coords)
+          this.showPanel()
+        }
+      },
+      (error) => {
+        console.warn('Geolocation failed:', error)
+      },
+      { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+    )
+  }
+
+  handleMapClick(event) {
+    if (!(this.hasLatitudeTarget && this.hasLongitudeTarget)) {
+      return
+    }
+
+    this.placeSingleMarker(event.latLng)
+    this.showPanel()
+  }
+
+  placeSingleMarker(latLng) {
+    if (this.currentMarker) {
+      this.currentMarker.setMap(null)
+    }
+
     const marker = new google.maps.Marker({
       position: latLng,
       map: this.map,
       draggable: true,
-      title: 'New Pin'
+      title: 'New Pin',
+      icon: {
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="30" fill="#8b5e3c"/>
+            <path d="M28 14c0-4 4-7 6-7 3 0 7 3 7 7 0 2-1 4-1 4s7 1 7 7c0 5-5 7-5 7s5 2 5 7c0 5-5 7-5 7s4 2 4 7c0 6-7 10-14 10s-14-4-14-10c0-5 4-7 4-7s-5-2-5-7c0-5 5-7 5-7s-6-2-6-7c0-6 7-7 7-7s-2-2-2-4z" fill="#6b4429"/>
+            <circle cx="26" cy="28" r="3" fill="#fff"/>
+            <circle cx="38" cy="28" r="3" fill="#fff"/>
+            <circle cx="26" cy="27" r="1.2" fill="#2f1b0f"/>
+            <circle cx="38" cy="27" r="1.2" fill="#2f1b0f"/>
+            <path d="M24 40c3 4 13 4 16 0" stroke="#2f1b0f" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </svg>
+        `),
+        scaledSize: new google.maps.Size(64, 64),
+        anchor: new google.maps.Point(32, 48)
+      }
     })
+
+    this.currentMarker = marker
 
     // Update form fields if they exist
     if (this.hasLatitudeTarget && this.hasLongitudeTarget) {
-      this.latitudeTarget.value = latLng.lat()
-      this.longitudeTarget.value = latLng.lng()
+      this.updateCoordinates(latLng)
     }
 
     // Add info window
@@ -63,7 +142,21 @@ export default class extends Controller {
       infoWindow.open(this.map, marker)
     })
 
+    marker.addListener('dragend', () => {
+      this.updateCoordinates(marker.getPosition())
+    })
+
     return marker
+  }
+
+  updateCoordinates(latLng) {
+    if (this.hasLatitudeTarget) {
+      this.latitudeTarget.value = latLng.lat()
+    }
+
+    if (this.hasLongitudeTarget) {
+      this.longitudeTarget.value = latLng.lng()
+    }
   }
 
   loadPins() {
@@ -80,13 +173,18 @@ export default class extends Controller {
       title: `Pin by ${pinData.user}`,
       icon: {
         url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#16a34a"/>
-            <circle cx="12" cy="9" r="2.5" fill="white"/>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="30" fill="#8b5e3c"/>
+            <path d="M28 14c0-4 4-7 6-7 3 0 7 3 7 7 0 2-1 4-1 4s7 1 7 7c0 5-5 7-5 7s5 2 5 7c0 5-5 7-5 7s4 2 4 7c0 6-7 10-14 10s-14-4-14-10c0-5 4-7 4-7s-5-2-5-7c0-5 5-7 5-7s-6-2-6-7c0-6 7-7 7-7s-2-2-2-4z" fill="#6b4429"/>
+            <circle cx="26" cy="28" r="3" fill="#fff"/>
+            <circle cx="38" cy="28" r="3" fill="#fff"/>
+            <circle cx="26" cy="27" r="1.2" fill="#2f1b0f"/>
+            <circle cx="38" cy="27" r="1.2" fill="#2f1b0f"/>
+            <path d="M24 40c3 4 13 4 16 0" stroke="#2f1b0f" stroke-width="3" stroke-linecap="round" fill="none"/>
           </svg>
         `),
-        scaledSize: new google.maps.Size(24, 24),
-        anchor: new google.maps.Point(12, 24)
+        scaledSize: new google.maps.Size(48, 48),
+        anchor: new google.maps.Point(24, 36)
       }
     })
 
@@ -223,4 +321,11 @@ export default class extends Controller {
       }
     ]
   }
-} 
+
+  showPanel() {
+    if (this.hasPanelTarget) {
+      this.panelTarget.classList.remove('hidden')
+      this.panelTarget.classList.add('flex')
+    }
+  }
+}

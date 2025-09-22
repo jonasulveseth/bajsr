@@ -1,0 +1,11 @@
+<p>Hej!</p>
+
+<p><%= @invitation.invited_by.email_address %> har bjudit in dig till gruppen <strong><%= @group.name %></strong> i Bajsr.</p>
+
+<p>Klicka på länken nedan för att skapa ett konto och gå med i gruppen:</p>
+
+<p><%= link_to "Acceptera inbjudan", @signup_url %></p>
+
+<p>Om du redan har ett konto kan du använda samma länk för att logga in och ansluta dig.</p>
+
+<p>Ses på kartan!</p>
