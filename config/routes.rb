@@ -21,7 +21,10 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :pins
   resources :groups do
-    post :invite, on: :member
+    member do
+      get :invite
+      post :invite
+    end
   end
   get "maps", to: "maps#index"
   get "home/index"

@@ -6,8 +6,7 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @members = @group.users
-    @pins = @group.users.joins(:pins).distinct
+    redirect_to new_pin_path(group_id: @group.id)
   end
 
   def new
@@ -20,7 +19,7 @@ class GroupsController < ApplicationController
     if @group.save
       # Add current user as first member
       @group.memberships.create(user: current_user)
-      redirect_to @group, notice: "Group was successfully created."
+      redirect_to new_pin_path(group_id: @group.id), notice: "Group was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +30,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      redirect_to @group, notice: "Group was successfully updated."
+      redirect_to invite_group_path(@group), notice: "Group was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,33 +42,39 @@ class GroupsController < ApplicationController
   end
 
   def invite
-    email = params[:email]
-
-    if email.blank?
-      redirect_to @group, alert: "Email is required."
+    if request.get?
+      @invitation = @group.invitations.new
       return
     end
 
-    user = User.find_by(email_address: email.downcase.strip)
+    @invitation = @group.invitations.new(invitation_params.merge(invited_by: current_user))
+    email = @invitation.email.to_s.downcase.strip
+    @invitation.email = email
 
-    if user.nil?
-      redirect_to @group, alert: "User not found. They need to register first."
-      return
+    if (existing_user = User.find_by(email_address: email)) && @group.users.exists?(existing_user.id)
+      redirect_to invite_group_path(@group), alert: "Användaren är redan medlem." and return
     end
 
-    if @group.users.include?(user)
-      redirect_to @group, alert: "User is already a member of this group."
-      return
+    if @group.invitations.pending.exists?(email: email)
+      redirect_to invite_group_path(@group), alert: "En inbjudan har redan skickats till den adressen." and return
     end
 
-    @group.memberships.create(user: user)
-    redirect_to @group, notice: "#{user.email_address} was successfully added to the group."
+    if @invitation.save
+      GroupInvitationMailer.with(invitation: @invitation).invite_email.deliver_later
+      redirect_to invite_group_path(@group), notice: "Inbjudan skickad till #{email}."
+    else
+      render :invite, status: :unprocessable_entity
+    end
   end
 
   private
 
   def set_group
-    @group = Group.find(params[:id])
+    @group = current_user.groups.find(params[:id])
+  end
+
+  def invitation_params
+    params.require(:group_invitation).permit(:email)
   end
 
   def group_params
