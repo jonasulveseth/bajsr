@@ -15,6 +15,10 @@ export default class extends Controller {
     }
 
     this.initializeMap()
+    // Show panel immediately for new pin form
+    if (window.location.pathname.includes('/pins/new')) {
+      setTimeout(() => this.showPanel(), 1000)
+    }
   }
 
   disconnect() {
@@ -326,6 +330,10 @@ export default class extends Controller {
     if (this.hasPanelTarget) {
       this.panelTarget.classList.remove('hidden')
       this.panelTarget.classList.add('flex')
+      // Ensure the panel is interactive
+      this.panelTarget.classList.remove('pointer-events-none')
+      this.panelTarget.classList.add('pointer-events-auto')
+      console.log('Panel shown and made interactive')
     }
   }
 }

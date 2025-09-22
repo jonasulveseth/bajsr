@@ -22,6 +22,8 @@ export default class extends Controller {
   }
 
   open() {
+    if (!this.hasMenuTarget || !this.hasOverlayTarget || !this.hasHamburgerTarget) return
+    
     this.menuTarget.classList.remove('translate-x-full')
     this.menuTarget.classList.add('translate-x-0')
     this.overlayTarget.classList.remove('hidden')
@@ -36,6 +38,8 @@ export default class extends Controller {
   }
 
   close() {
+    if (!this.hasMenuTarget || !this.hasOverlayTarget || !this.hasHamburgerTarget) return
+    
     this.menuTarget.classList.remove('translate-x-0')
     this.menuTarget.classList.add('translate-x-full')
     this.overlayTarget.classList.remove('block')
@@ -50,11 +54,11 @@ export default class extends Controller {
   }
 
   isOpen() {
-    return this.menuTarget.classList.contains('translate-x-0')
+    return this.hasMenuTarget && this.menuTarget.classList.contains('translate-x-0')
   }
 
   handleOutsideClick(event) {
-    if (this.isOpen() && !this.element.contains(event.target)) {
+    if (this.hasMenuTarget && this.isOpen() && !this.element.contains(event.target)) {
       this.close()
     }
   }

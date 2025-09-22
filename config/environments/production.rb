@@ -10,7 +10,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled.
-  config.consider_all_requests_local = false
+  config.consider_all_requests_local = true
 
   # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true
@@ -55,15 +55,8 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
 
-<<<<<<< HEAD
-  config.action_mailer.default_url_options = {
-    host: ENV.fetch("APP_HOST", "example.com"),
-    protocol: ENV.fetch("APP_PROTOCOL", "https")
-  }
-=======
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "bajsr.com" }
->>>>>>> origin/main
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {

@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3">
-                  <%= form.submit "Spara pin", class: "inline-flex items-center justify-center rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-500" %>
+                  <%= form.submit "Spara pin", class: "inline-flex items-center justify-center rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-500", onclick: "console.log('Button clicked!'); return validateForm()", id: "submit-button" %>
                   <%= link_to "Avbryt", pins_path, class: "inline-flex items-center justify-center rounded-xl bg-white/10 px-6 py-3 text-sm font-semibold text-white/80 transition-colors hover:bg-white/20" %>
                 </div>
               </div>
@@ -121,6 +121,34 @@ function setRating(rating) {
   });
 }
 
+function validateForm() {
+  console.log('validateForm called');
+  const latitude = document.getElementById('pin_latitude').value;
+  const longitude = document.getElementById('pin_longitude').value;
+  const rating = document.getElementById('pin_rating').value;
+  const comment = document.querySelector('textarea[name="pin[comment]"]').value;
+  
+  console.log('Form data:', { latitude, longitude, rating, comment });
+  
+  if (!latitude || !longitude) {
+    alert('Klicka på kartan för att placera en markör först.');
+    return false;
+  }
+  
+  if (!rating) {
+    alert('Välj ett betyg genom att klicka på stjärnorna.');
+    return false;
+  }
+  
+  if (!comment.trim()) {
+    alert('Skriv en kommentar om vad du hittade.');
+    return false;
+  }
+  
+  console.log('Form validation passed!');
+  return true;
+}
+
 // Image preview
 document.getElementById('pin_image_input').addEventListener('change', function(e) {
   const file = e.target.files[0];
@@ -133,4 +161,5 @@ document.getElementById('pin_image_input').addEventListener('change', function(e
     reader.readAsDataURL(file);
   }
 });
+
 </script>

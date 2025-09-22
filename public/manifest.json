@@ -8,6 +8,7 @@
   "background_color": "#0f172a",
   "theme_color": "#16a34a",
   "orientation": "portrait-primary",
+  "splash_pages": null,
   "icons": [
     {
       "src": "/icon.png",

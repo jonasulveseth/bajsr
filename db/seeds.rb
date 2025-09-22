@@ -1,9 +1,15 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Create a default group
+default_group = Group.find_or_create_by(name: "Default Group")
+
+# Create a default user for testing
+default_user = User.find_or_create_by(email_address: "test@example.com") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+end
+
+# Create a membership for the default user
+Membership.find_or_create_by(user: default_user, group: default_group)
+
+puts "Created default group: #{default_group.name}"
+puts "Created default user: #{default_user.email_address}"
+puts "Created membership for user in group"

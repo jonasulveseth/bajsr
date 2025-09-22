@@ -1,4 +1,4 @@
-if Rails.env.development? || Rails.env.test?
+if Rails.env.development? || Rails.env.test? || Rails.env.production?
   env_path = Rails.root.join('.env')
 
   if File.exist?(env_path)
