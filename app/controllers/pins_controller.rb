@@ -1,5 +1,4 @@
 class PinsController < ApplicationController
-  allow_unauthenticated_access only: [:new, :create]
   before_action :set_groups_context, only: %i[new create]
   before_action :set_pin, only: %i[show edit update destroy]
 
