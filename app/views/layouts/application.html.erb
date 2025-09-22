@@ -4,9 +4,14 @@
     <title><%= content_for(:title) || "Bajsr" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Bajsr">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#16a34a">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#16a34a">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16a34a">
+    <meta name="msapplication-TileColor" content="#16a34a">
+    <meta name="msapplication-tap-highlight" content="no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -18,6 +23,61 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/icon.png">
+    
+    <!-- iOS Splash Screens -->
+    <!-- iPhone 6, 7, 8 -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
+    <!-- iPhone 6, 7, 8 Plus -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone X, XS, 11 Pro -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone XR, 11 -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)">
+    <!-- iPhone XS Max, 11 Pro Max -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 12 mini -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 12, 12 Pro -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 12 Pro Max -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 13 mini -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 13, 13 Pro -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 13 Pro Max -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 14 -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 14 Plus -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 14 Pro -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 14 Pro Max -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 15 -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 15 Plus -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 15 Pro -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPhone 15 Pro Max -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
+    <!-- iPad -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)">
+    <!-- iPad Pro 11" -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)">
+    <!-- iPad Pro 12.9" -->
+    <link rel="apple-touch-startup-image" href="/splash.html" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)">
     
     <!-- Google Maps JavaScript API -->
     <% if (maps_api_key = ENV["GOOGLE_MAPS_API_KEY"]).present? %>
@@ -40,8 +100,7 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
-  <body class="bg-slate-950/5">
+  <body class="bg-slate-950/5" data-controller="pwa-install mobile-menu splash" >
     <% hide_navigation = content_for?(:full_screen_map) %>
     <% non_splash_page = !current_page?(root_path) && !hide_navigation %>
     <% container_classes = "w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" %>
@@ -57,28 +116,163 @@
               <%= link_to "Bajsr", root_path, class: "text-xl font-bold text-white" %>
             </div>
             
+            <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-6">
               <%= link_to "Map", maps_path, class: "text-white/80 hover:text-white transition-colors" %>
               <%= link_to "Pins", pins_path, class: "text-white/80 hover:text-white transition-colors" %>
               <%= link_to "Groups", groups_path, class: "text-white/80 hover:text-white transition-colors" %>
             </div>
             
-            <div class="flex items-center space-x-4">
+            <!-- Desktop User Actions -->
+            <div class="hidden md:flex items-center space-x-4">
+              <!-- PWA Install Button -->
+              <button 
+                data-pwa-install-target="button" 
+                data-action="click->pwa-install#install"
+                class="hidden bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm transition-colors flex items-center space-x-2"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span>Installera app</span>
+              </button>
+              
               <% if Current.user %>
                 <%= link_to dashboard_path, class: "flex items-center space-x-2 text-white/80 hover:text-white transition-colors" do %>
                   <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-green-500/20 text-green-200 font-semibold">
                     <%= Current.user.email_address.first.upcase %>
                   </span>
-                  <span class="hidden sm:block text-sm font-medium">Min sida</span>
+                  <span class="text-sm font-medium">Min sida</span>
                 <% end %>
                 <%= button_to "Sign Out", session_path, method: :delete, class: "bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm transition-colors" %>
               <% else %>
                 <%= link_to "Sign In", new_session_path, class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm transition-colors" %>
               <% end %>
             </div>
+
+            <!-- Mobile Hamburger Menu -->
+            <div class="md:hidden">
+              <button 
+                data-action="click->mobile-menu#toggle"
+                data-mobile-menu-target="hamburger"
+                class="flex flex-col justify-center items-center w-8 h-8 space-y-1"
+              >
+                <div class="line-1 w-6 h-0.5 bg-white transition-all duration-300"></div>
+                <div class="line-2 w-6 h-0.5 bg-white transition-all duration-300"></div>
+                <div class="line-3 w-6 h-0.5 bg-white transition-all duration-300"></div>
+              </button>
+            </div>
           </div>
         </div>
       </nav>
+
+      <!-- Mobile Menu Overlay -->
+      <div 
+        data-mobile-menu-target="overlay"
+        class="hidden fixed inset-0 bg-black/50 z-40"
+      ></div>
+
+      <!-- Mobile Menu -->
+      <div 
+        data-mobile-menu-target="menu"
+        class="fixed top-0 right-0 h-full w-80 bg-slate-900 shadow-xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out"
+      >
+        <div class="flex flex-col h-full">
+          <!-- Menu Header -->
+          <div class="flex items-center justify-between p-6 border-b border-white/10">
+            <h2 class="text-lg font-semibold text-white">Menu</h2>
+            <button 
+              data-action="click->mobile-menu#close"
+              class="text-white/60 hover:text-white"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Menu Content -->
+          <div class="flex-1 p-6 space-y-6">
+            <!-- Navigation Links -->
+            <div class="space-y-4">
+              <h3 class="text-sm font-medium text-white/60 uppercase tracking-wider">Navigation</h3>
+              <%= link_to maps_path, class: "flex items-center space-x-3 text-white/80 hover:text-white transition-colors py-2", data: { action: "click->mobile-menu#close" } do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                </svg>
+                <span>Map</span>
+              <% end %>
+              <%= link_to pins_path, class: "flex items-center space-x-3 text-white/80 hover:text-white transition-colors py-2", data: { action: "click->mobile-menu#close" } do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span>Pins</span>
+              <% end %>
+              <%= link_to groups_path, class: "flex items-center space-x-3 text-white/80 hover:text-white transition-colors py-2", data: { action: "click->mobile-menu#close" } do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span>Groups</span>
+              <% end %>
+              <%= link_to new_pin_path, class: "flex items-center space-x-3 text-green-400 hover:text-green-300 transition-colors py-2 font-medium", data: { action: "click->mobile-menu#close" } do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                <span>Add Pin</span>
+              <% end %>
+            </div>
+
+            <!-- User Section -->
+            <div class="space-y-4 pt-6 border-t border-white/10">
+              <h3 class="text-sm font-medium text-white/60 uppercase tracking-wider">Account</h3>
+              
+              <% if Current.user %>
+                <%= link_to dashboard_path, class: "flex items-center space-x-3 text-white/80 hover:text-white transition-colors py-2", data: { action: "click->mobile-menu#close" } do %>
+                  <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-green-500/20 text-green-200 font-semibold text-sm">
+                    <%= Current.user.email_address.first.upcase %>
+                  </span>
+                  <span>Min sida</span>
+                <% end %>
+                <%= button_to session_path, method: :delete, class: "flex items-center space-x-3 text-red-400 hover:text-red-300 transition-colors py-2 w-full text-left", data: { action: "click->mobile-menu#close" } do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                  </svg>
+                  <span>Sign Out</span>
+                <% end %>
+              <% else %>
+                <%= link_to new_session_path, class: "flex items-center space-x-3 text-white/80 hover:text-white transition-colors py-2", data: { action: "click->mobile-menu#close" } do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                  </svg>
+                  <span>Sign In</span>
+                <% end %>
+                <%= link_to new_registration_path, class: "flex items-center space-x-3 text-white/80 hover:text-white transition-colors py-2", data: { action: "click->mobile-menu#close" } do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                  </svg>
+                  <span>Sign Up</span>
+                <% end %>
+              <% end %>
+            </div>
+
+            <!-- PWA Install Section -->
+            <div class="space-y-4 pt-6 border-t border-white/10">
+              <h3 class="text-sm font-medium text-white/60 uppercase tracking-wider">App</h3>
+              <button 
+                data-pwa-install-target="button" 
+                data-action="click->pwa-install#install"
+                class="hidden flex items-center space-x-3 text-white/80 hover:text-white transition-colors py-2 w-full text-left"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span>Installera app</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
 
     <% main_padding = if hide_navigation
@@ -97,5 +291,8 @@
         <%= yield %>
       <% end %>
     </main>
+
+    <!-- PWA Install Banner -->
+    <%= render "shared/install_pwa_banner" %>
   </body>
 </html>

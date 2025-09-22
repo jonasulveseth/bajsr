@@ -1,10 +1,10 @@
-const CACHE_VERSION = '<%= Rails.application.config.assets.version %>-v1'
+const CACHE_VERSION = 'v1'
 const CACHE_NAME = `bajsr-${CACHE_VERSION}`
 const OFFLINE_URL = '/offline'
 const PRECACHE_URLS = [
   '/',
   OFFLINE_URL,
-  '<%= asset_path "application.css" %>',
+  '/assets/application.css',
   '/icon.png',
   '/icon.svg'
 ]
@@ -39,3 +39,5 @@ self.addEventListener('fetch', event => {
     })
   )
 })
+
+

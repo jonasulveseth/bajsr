@@ -10,6 +10,21 @@ class Pin < ApplicationRecord
   validates :group, presence: true
   validate :acceptable_image
 
+  private
+
+  def acceptable_image
+    return unless image.attached?
+    
+    unless image.byte_size <= 1.megabyte
+      errors.add(:image, "is too big")
+    end
+
+    acceptable_types = ["image/jpeg", "image/png", "image/gif", "image/webp"]
+    unless acceptable_types.include?(image.content_type)
+      errors.add(:image, "must be a JPEG, PNG, GIF, or WebP")
+    end
+  end
+
   scope :recent, -> { order(created_at: :desc) }
   scope :by_rating, ->(rating) { where(rating: rating) }
 end
