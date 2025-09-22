@@ -7,18 +7,8 @@ class Pin < ApplicationRecord
   validates :longitude, presence: true, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
   validates :rating, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5, only_integer: true }
   validates :comment, presence: true, length: { maximum: 1000 }
-<<<<<<< HEAD
   validates :group, presence: true
   validate :acceptable_image
-=======
-  validate :image_presence
-
-  private
-
-  def image_presence
-    errors.add(:image, "must be attached") unless image.attached?
-  end
->>>>>>> origin/main
 
   scope :recent, -> { order(created_at: :desc) }
   scope :by_rating, ->(rating) { where(rating: rating) }
