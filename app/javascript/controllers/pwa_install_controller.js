@@ -5,13 +5,19 @@ export default class extends Controller {
   static classes = ["visible"]
   static values = { 
     isInstalled: Boolean,
-    isIos: Boolean 
+    isIos: Boolean,
+    dismissed: { type: Boolean, default: false }
   }
 
   connect() {
     this.deferredPrompt = null
     this.isIosValue = this.detectIos()
     this.isInstalledValue = this.detectInstalled()
+    this.dismissedValue = sessionStorage.getItem('pwaBannerDismissed') === 'true'
+
+    if (this.dismissedValue) {
+      return
+    }
     
     // Listen for the beforeinstallprompt event (Android/Chrome)
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -52,6 +58,7 @@ export default class extends Controller {
   }
 
   showInstallButton() {
+    if (this.dismissedValue) return
     if (this.hasButtonTarget) {
       this.buttonTarget.classList.remove('hidden')
     }
@@ -73,6 +80,7 @@ export default class extends Controller {
   }
 
   show() { 
+    if (this.dismissedValue) return
     this.element.classList.add(...this.visibleClasses) 
   }
   
@@ -101,8 +109,8 @@ export default class extends Controller {
   }
 
   dismissInstructions() {
-    if (this.hasInstructionsTarget) {
-      this.instructionsTarget.classList.add('hidden')
-    }
+    sessionStorage.setItem('pwaBannerDismissed', 'true')
+    this.dismissedValue = true
+    this.hide()
   }
 }
