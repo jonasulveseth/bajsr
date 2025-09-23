@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       post :invite
     end
   end
+  post "pwa_install/dismiss", to: "pwa_install#dismiss"
   get "maps", to: "maps#index"
   get "home/index"
   get "offline", to: "home#offline"

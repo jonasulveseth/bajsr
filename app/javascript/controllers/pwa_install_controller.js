@@ -13,16 +13,16 @@ export default class extends Controller {
     this.deferredPrompt = null
     this.isIosValue = this.detectIos()
     this.isInstalledValue = this.detectInstalled()
-    this.dismissedValue = sessionStorage.getItem('pwaBannerDismissed') === 'true'
+    const storageDismissed = sessionStorage.getItem('pwaInstallDismissed') === 'true'
+    const cookieDismissed = document.cookie.split('; ').some((cookie) => cookie.startsWith('hide_pwa_banner='))
+    this.dismissedValue = storageDismissed || cookieDismissed || this.element.dataset.dismissed === 'true'
+    console.log('[PWA Install] connect — session:', this.element.dataset.dismissed, 'storage:', storageDismissed, 'cookie:', cookieDismissed)
 
-    if (this.dismissedValue) {
-      return
-    }
-    
     // Listen for the beforeinstallprompt event (Android/Chrome)
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault()
       this.deferredPrompt = e
+      console.log('[PWA Install] beforeinstallprompt fired')
       this.showInstallButton()
     })
 
@@ -39,10 +39,11 @@ export default class extends Controller {
     // På macOS Safari kan vi tipsa om "Add to Dock" (men ingen prompt finns)
     const isMacSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && navigator.platform.startsWith("Mac")
 
-    if (!isStandalone && (isIOS || isMacSafari)) {
+    if (!this.dismissedValue && !isStandalone && (isIOS || isMacSafari)) {
       if (isMacSafari) {
         this.messageTarget.innerHTML = `På macOS: välj <em>Safari ▸ File ▸ Add to Dock…</em> för att installera.`
       }
+      console.log('[PWA Install] showing instructions banner')
       this.show()
     }
   }
@@ -58,8 +59,8 @@ export default class extends Controller {
   }
 
   showInstallButton() {
-    if (this.dismissedValue) return
-    if (this.hasButtonTarget) {
+    if (!this.dismissedValue && this.hasButtonTarget) {
+      console.log('[PWA Install] showing install button')
       this.buttonTarget.classList.remove('hidden')
     }
   }
@@ -81,11 +82,15 @@ export default class extends Controller {
 
   show() { 
     if (this.dismissedValue) return
-    this.element.classList.add(...this.visibleClasses) 
+    console.log('[PWA Install] show() called')
+    this.element.classList.add(...this.visibleClasses)
+    this.element.classList.remove('pointer-events-none')
   }
   
   hide() { 
-    this.element.classList.remove(...this.visibleClasses) 
+    console.log('[PWA Install] hide() called')
+    this.element.classList.remove(...this.visibleClasses)
+    this.element.classList.add('pointer-events-none')
   }
 
   async install() {
@@ -109,8 +114,27 @@ export default class extends Controller {
   }
 
   dismissInstructions() {
-    sessionStorage.setItem('pwaBannerDismissed', 'true')
+    sessionStorage.setItem('pwaInstallDismissed', 'true')
     this.dismissedValue = true
+    this.element.dataset.dismissed = 'true'
     this.hide()
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+    console.log('[PWA Install] dismissInstructions() posting to server')
+    document.cookie = 'hide_pwa_banner=1; path=/; max-age=604800'
+    fetch('/pwa_install/dismiss', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Accept': 'application/json'
+      },
+      credentials: 'same-origin'
+    }).then((response) => {
+      console.log('[PWA Install] server dismissal response status:', response.status)
+      return response.json().catch(() => ({}))
+    }).then((data) => {
+      console.log('[PWA Install] server dismissal payload:', data)
+    }).catch((error) => {
+      console.warn('[PWA Install] Could not persist banner dismissal', error)
+    })
   }
 }
